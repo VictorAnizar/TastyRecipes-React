@@ -1,0 +1,28 @@
+.searcher-div{
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    .searcher-info{
+        flex-basis: 50%;
+        .searcher-form{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            .searcher-form-searcher{
+                margin-top: 5px;
+                flex-basis: 100%;
+            }
+            .searcher-form-button{
+                flex-basis: 100%;
+                margin-top: 5px;
+            }
+        }
+    }
+    .searcher-image{
+        flex-basis: 50%;
+        text-align: center;
+    }
+}
