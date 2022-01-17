@@ -4,9 +4,8 @@ import persona from '../../styles/img/undraw_cooking_lyxy.svg';
 // Importing react bootstrap components
 import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-
-
-
+// Importing mui component
+import RecipeReviewCard from "./RecipeReviewCard";
 
 const CardRecipe = ({ info }) => {
 
@@ -26,24 +25,24 @@ const CardRecipe = ({ info }) => {
     );
 }
 
-const GridCategories = ({categories}) => {
-    if(categories==null){
+const GridCategories = ({ categories }) => {
+    if (categories == null) {
         return null;
     }
     else return (
         <>
-            {categories.map((category, index)=>
-                <CardCategory info={category} key={index}/>
+            {categories.map((category, index) =>
+                <CardCategory info={category} key={index} />
             )}
         </>
     )
 }
 
-const CardCategory = ({info}) => {
+const CardCategory = ({ info }) => {
     return (
         <div className="card-category">
             <div className="card-category-image-container">
-                <img src={info.strCategoryThumb}  style={{ width: "100%" }}/>
+                <img src={info.strCategoryThumb} style={{ width: "100%" }} />
             </div>
             <div className="card-category-short-info">
                 <h5>{info.strCategory}</h5>
@@ -69,13 +68,13 @@ const Inicio = () => {
             });
     }
 
-    const getCategories = async () =>{
+    const getCategories = async () => {
         await fetch('https://www.themealdb.com/api/json/v1/1/categories.php')
-        .then(res => res.json())
-        .then(data => {
-            console.log(data.categories);
-            setCategories(data.categories)
-        });
+            .then(res => res.json())
+            .then(data => {
+                console.log(data.categories);
+                setCategories(data.categories)
+            });
     }
 
 
@@ -116,13 +115,14 @@ const Inicio = () => {
                 <p>
                     ¡Cualquiera que obtengas, será deliciosa!
                 </p>
-                <CardRecipe info={randomRecipe} />
+                {/* <CardRecipe info={randomRecipe} /> */}
+                <RecipeReviewCard info={randomRecipe}></RecipeReviewCard>
             </div>
             {/* section of categories */}
             <h2>Nuestras categorías</h2>
             <div className="categories">
 
-                <GridCategories categories={categories}/>
+                <GridCategories categories={categories} />
             </div>
         </div>
     );
