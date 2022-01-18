@@ -6,6 +6,12 @@ import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 // Importing mui component
 import RecipeReviewCard from "./RecipeReviewCard";
+import { Skeleton } from "@mui/material";
+
+const selectCategory=(cat)=>{
+    
+    console.log(cat);
+}
 
 const CardRecipe = ({ info }) => {
 
@@ -32,7 +38,11 @@ const GridCategories = ({ categories }) => {
     else return (
         <>
             {categories.map((category, index) =>
-                <CardCategory info={category} key={index} />
+                <CardCategory
+                    info={category}
+                    key={index}
+                    
+                />
             )}
         </>
     )
@@ -40,7 +50,7 @@ const GridCategories = ({ categories }) => {
 
 const CardCategory = ({ info }) => {
     return (
-        <div className="card-category">
+        <div className="card-category" onClick={()=>selectCategory(info.strCategory)}>
             <div className="card-category-image-container">
                 <img src={info.strCategoryThumb} style={{ width: "100%" }} />
             </div>
@@ -52,27 +62,30 @@ const CardCategory = ({ info }) => {
 }
 
 
+
 const Inicio = () => {
     const [randomRecipe, setRandomRecipe] = useState(null);
     const [categories, setCategories] = useState(null);
-    const [staredRecipes, setStaredCategories] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    // const [staredRecipes, setStaredRecipes] = useState(null);
     // const [loading, setLoading] = useState(true);
+
+   
 
     const getRandomRecipe = async () => {
         await fetch('https://www.themealdb.com/api/json/v1/1/random.php')
             .then(res => res.json())
             .then(data => {
-                console.log(data.meals[0]);
                 setRandomRecipe(data.meals[0]);
                 // setLoading(false);
             });
     }
 
+
     const getCategories = async () => {
         await fetch('https://www.themealdb.com/api/json/v1/1/categories.php')
             .then(res => res.json())
             .then(data => {
-                console.log(data.categories);
                 setCategories(data.categories)
             });
     }
@@ -81,6 +94,7 @@ const Inicio = () => {
     useEffect(() => {
         getRandomRecipe();
         getCategories();
+
     }, []);
 
 
@@ -107,6 +121,13 @@ const Inicio = () => {
                     <img src={persona} style={{ width: "60%" }} />
                 </div>
             </div>
+            {/* Section of the most popular */}
+            {/* <h2>¡Lo más destacado!</h2>
+            <div className="stared">
+               {randomRecipe ? <RecipeReviewCard className="card-recipe" info={randomRecipe}></RecipeReviewCard> : <Skeleton variant="rectangular" width={210} height={118} />
+}
+                
+            </div> */}
             {/* section of daily/random recipe */}
             <div className="daily-recipe">
                 <h2 >
@@ -124,6 +145,8 @@ const Inicio = () => {
 
                 <GridCategories categories={categories} />
             </div>
+
+
         </div>
     );
 }
