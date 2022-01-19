@@ -19,14 +19,14 @@ import Typography from '@mui/material/Typography';
 
 
 
-const RecipeReviewCard = ({ info }) => {
+const RecipeReviewCard = (props) => {
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
-    if (info == null) {
+    if (props.info == null) {
         return null
     }
     else return (
@@ -40,19 +40,19 @@ const RecipeReviewCard = ({ info }) => {
             <CardHeader
 
 
-                title={info.strMeal}
-                subheader={info.dateModified != null ? info.dateModified : null}
+                title={props.info.strMeal}
+                subheader={props.info.dateModified != null ? props.info.dateModified : null}
                 style={{ padding: "0" }}
             />
             <CardMedia
                 component="img"
-                height="5%"
-                image={info.strMealThumb}
+                
+                image={props.info.strMealThumb}
                 style={{ borderRadius: "5px", margin: "0 auto", width: "80%" }}
             />
             <CardContent>
                 <Typography variant="body2" color="white">
-                    Categoría: {info['strCategory']}
+                    Categoría: {props.info['strCategory']}
                 </Typography>
             </CardContent>
 
@@ -60,7 +60,7 @@ const RecipeReviewCard = ({ info }) => {
                 <CardContent>
                     <Typography paragraph>Preparación</Typography>
                     <Typography paragraph style={{ textAlign: "justify" }}>
-                        {info.strInstructions}
+                        {props.info.strInstructions}
                     </Typography>
 
                 </CardContent>

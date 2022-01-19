@@ -7,11 +7,8 @@ import { Button } from "react-bootstrap";
 // Importing mui component
 import RecipeReviewCard from "./RecipeReviewCard";
 import { Skeleton } from "@mui/material";
-
-const selectCategory=(cat)=>{
-    
-    console.log(cat);
-}
+import { Alert } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const CardRecipe = ({ info }) => {
 
@@ -31,31 +28,50 @@ const CardRecipe = ({ info }) => {
     );
 }
 
-const GridCategories = ({ categories }) => {
-    if (categories == null) {
+const GridCategories = (props) => {
+    if (props.categories == null) {
         return null;
     }
     else return (
         <>
-            {categories.map((category, index) =>
+            {props.categories.map((category, index) =>
                 <CardCategory
                     info={category}
                     key={index}
-                    
+                    selectCategory={props.selectCategory}
                 />
             )}
         </>
     )
 }
 
-const CardCategory = ({ info }) => {
+
+const GridRecipesCategories = (props) => {
     return (
-        <div className="card-category" onClick={()=>selectCategory(info.strCategory)}>
+        <>
+            {props.recipesCat.map((recipeCat, index) =>
+                <RecipeReviewCard key={index} info={recipeCat} />
+            )}
+        </>
+    )
+}
+
+
+const CardCategory = (props) => {
+    return (
+        <div
+            className="card-category"
+            onClick={(e) => {
+                e.preventDefault()
+
+                props.selectCategory(props.info.strCategory)
+            }}
+        >
             <div className="card-category-image-container">
-                <img src={info.strCategoryThumb} style={{ width: "100%" }} />
+                <img src={props.info.strCategoryThumb} style={{ width: "100%" }} />
             </div>
             <div className="card-category-short-info">
-                <h5>{info.strCategory}</h5>
+                <h5>{props.info.strCategory}</h5>
             </div>
         </div>
     )
@@ -70,8 +86,16 @@ const Inicio = () => {
     // const [staredRecipes, setStaredRecipes] = useState(null);
     // const [loading, setLoading] = useState(true);
 
-   
-
+    const selectCategory = async (cat) => {
+        await fetch('https://www.themealdb.com/api/json/v1/1/filter.php?c=' + cat)
+            .then(res => res.json())
+            .then(data => {
+                console.log("cat seleccionada" + cat);
+                console.log(data.meals);
+                setSelectedCategory(data.meals);
+            });
+        // console.log(cat);
+    }
     const getRandomRecipe = async () => {
         await fetch('https://www.themealdb.com/api/json/v1/1/random.php')
             .then(res => res.json())
@@ -80,8 +104,6 @@ const Inicio = () => {
                 // setLoading(false);
             });
     }
-
-
     const getCategories = async () => {
         await fetch('https://www.themealdb.com/api/json/v1/1/categories.php')
             .then(res => res.json())
@@ -89,15 +111,11 @@ const Inicio = () => {
                 setCategories(data.categories)
             });
     }
-
-
     useEffect(() => {
         getRandomRecipe();
         getCategories();
 
     }, []);
-
-
     return (
         <div className="container">
             {/* Section of search recipe */}
@@ -121,13 +139,7 @@ const Inicio = () => {
                     <img src={persona} style={{ width: "60%" }} />
                 </div>
             </div>
-            {/* Section of the most popular */}
-            {/* <h2>¡Lo más destacado!</h2>
-            <div className="stared">
-               {randomRecipe ? <RecipeReviewCard className="card-recipe" info={randomRecipe}></RecipeReviewCard> : <Skeleton variant="rectangular" width={210} height={118} />
-}
-                
-            </div> */}
+
             {/* section of daily/random recipe */}
             <div className="daily-recipe">
                 <h2 >
@@ -143,9 +155,22 @@ const Inicio = () => {
             <h2>Nuestras categorías</h2>
             <div className="categories">
 
-                <GridCategories categories={categories} />
+                <GridCategories categories={categories} selectCategory={(selectedCategory) => selectCategory(selectedCategory)} />
             </div>
+            {selectedCategory ?
+                <div className="selected-category">
+                    <h2>Mostrando por categoría </h2>
+                    <Button variant="warning" onClick={()=>{
+                        setSelectedCategory(null);
+                    }}>Limpiar</Button>{' '}
 
+                    <div className="grid-selected-category">
+                        {selectedCategory.map((recipeCat, index) =>
+                            <RecipeReviewCard key={index} info={recipeCat} fromCategory={true}/>
+                        )}
+                    </div>
+                </div> : null
+            }
 
         </div>
     );
