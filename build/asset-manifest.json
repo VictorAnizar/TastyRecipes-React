@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.f608442a.css",
-    "main.js": "/static/js/main.3e2cff4b.js",
-    "static/media/HomemadeApple-Regular.ttf": "/static/media/HomemadeApple-Regular.722fc8e0e26a4d9f550c.ttf",
-    "static/media/undraw_cooking_lyxy.svg": "/static/media/undraw_cooking_lyxy.3c5862d8bc57b4c2a00c469c58060fa7.svg",
-    "index.html": "/index.html",
-    "main.f608442a.css.map": "/static/css/main.f608442a.css.map",
-    "main.3e2cff4b.js.map": "/static/js/main.3e2cff4b.js.map"
+    "main.css": "/TastyRecipes-React/static/css/main.5145b458.css",
+    "main.js": "/TastyRecipes-React/static/js/main.c6cf5587.js",
+    "static/media/HomemadeApple-Regular.ttf": "/TastyRecipes-React/static/media/HomemadeApple-Regular.722fc8e0e26a4d9f550c.ttf",
+    "static/media/undraw_cooking_lyxy.svg": "/TastyRecipes-React/static/media/undraw_cooking_lyxy.3c5862d8bc57b4c2a00c469c58060fa7.svg",
+    "index.html": "/TastyRecipes-React/index.html",
+    "main.5145b458.css.map": "/TastyRecipes-React/static/css/main.5145b458.css.map",
+    "main.c6cf5587.js.map": "/TastyRecipes-React/static/js/main.c6cf5587.js.map"
   },
   "entrypoints": [
-    "static/css/main.f608442a.css",
-    "static/js/main.3e2cff4b.js"
+    "static/css/main.5145b458.css",
+    "static/js/main.c6cf5587.js"
   ]
 }
