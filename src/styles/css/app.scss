@@ -3,8 +3,25 @@
     src: url("../fonts/Homemade_Apple/HomemadeApple-Regular.ttf");
 }
 
+@keyframes slide {
+    0% {
+      opacity: 0%;
+    }
+    50% {
+        opacity: 50%;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
 .logo-texto-navbar{
     font-family: "Homemade_Apple";
     color: white !important;
 }
 
+.appearing-alert{
+    animation-name: slide;
+    animation-duration: 1s;
+    animation-timing-function: ease-in;
+}

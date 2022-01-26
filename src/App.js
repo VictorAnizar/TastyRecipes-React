@@ -19,7 +19,7 @@ function BarraNavegacion() {
 
   if (show) {
     return (
-      <Alert variant="info" onClose={() => setShow(false)} dismissible>
+      <Alert className="appearing-alert" variant="info" onClose={() => setShow(false)} dismissible>
         <Alert.Heading>Thanks for contacting me!</Alert.Heading>
         <h4>
         <a href="https://www.linkedin.com/in/v%C3%ADctor-anizar-morales-36396419b/">This is my Linkedin profile </a>
