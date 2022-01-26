@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 // Importing components
 import Inicio from "./components/inicio/Inicio";
-// Importing css
+// Importing csss
 import "./styles/css/app.scss";
 // Importing components from reacto bootstrap
 import Navbar from "react-bootstrap/Navbar";
