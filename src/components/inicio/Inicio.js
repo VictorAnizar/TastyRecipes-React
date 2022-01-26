@@ -10,6 +10,8 @@ import { Skeleton } from "@mui/material";
 import { Alert } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 
+import { Routes, Route, Outlet, Link, useNavigate } from "react-router-dom";
+
 const CardRecipe = ({ info }) => {
 
     if (info == null) {
@@ -58,13 +60,19 @@ const GridRecipesCategories = (props) => {
 
 
 const CardCategory = (props) => {
+    let navigate = useNavigate();
+
+    function handleClick() {
+    };
+
     return (
         <div
+            // as={Link} to="#grid-selected-category"
             className="card-category"
             onClick={(e) => {
                 e.preventDefault()
-
-                props.selectCategory(props.info.strCategory)
+                props.selectCategory(props.info.strCategory);
+                // navigate('/#grid-selected-category');
             }}
         >
             <div className="card-category-image-container">
@@ -73,6 +81,7 @@ const CardCategory = (props) => {
             <div className="card-category-short-info">
                 <h5>{props.info.strCategory}</h5>
             </div>
+
         </div>
     )
 }
@@ -80,12 +89,13 @@ const CardCategory = (props) => {
 
 
 const Inicio = () => {
+
     const [randomRecipe, setRandomRecipe] = useState(null);
     const [categories, setCategories] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [category, setCategory] = useState(null);
     // const [staredRecipes, setStaredRecipes] = useState(null);
     // const [loading, setLoading] = useState(true);
-
     const selectCategory = async (cat) => {
         await fetch('https://www.themealdb.com/api/json/v1/1/filter.php?c=' + cat)
             .then(res => res.json())
@@ -93,6 +103,7 @@ const Inicio = () => {
                 console.log("cat seleccionada" + cat);
                 console.log(data.meals);
                 setSelectedCategory(data.meals);
+                setCategory(cat)
             });
         // console.log(cat);
     }
@@ -152,24 +163,26 @@ const Inicio = () => {
                 <RecipeReviewCard info={randomRecipe}></RecipeReviewCard>
             </div>
             {/* section of categories */}
-            <h2>Nuestras categorías</h2>
-            <div className="categories">
 
-                <GridCategories categories={categories} selectCategory={(selectedCategory) => selectCategory(selectedCategory)} />
-            </div>
             {selectedCategory ?
-                <div className="selected-category">
-                    <h2>Mostrando por categoría </h2>
-                    <Button variant="warning" onClick={()=>{
+                <div className="selected-category" id="grid-selected-category">
+                    <h2>Mostrando por categoría {category}</h2>
+                    <Button variant="warning" onClick={() => {
                         setSelectedCategory(null);
                     }}>Limpiar</Button>{' '}
 
-                    <div className="grid-selected-category">
+                    <div className="grid-selected-category" >
                         {selectedCategory.map((recipeCat, index) =>
-                            <RecipeReviewCard key={index} info={recipeCat} fromCategory={true}/>
+                            <RecipeReviewCard key={index} info={recipeCat} fromCategory={true} />
                         )}
                     </div>
-                </div> : null
+                </div> :
+                <>
+                    <h2>Nuestras categorías</h2>
+                    <div className="categories">
+
+                        <GridCategories categories={categories} selectCategory={(selectedCategory) => selectCategory(selectedCategory)} />
+                    </div></>
             }
 
         </div>

@@ -28,6 +28,14 @@ function BarraNavegacion() {
   );
 }
 
+function PiePagina(){
+  return (
+    <div id="pie-pagina">
+      Pie
+    </div>
+  );
+}
+
 const NoMatch = () => {
   return (
     <div>
@@ -59,6 +67,7 @@ const App = () => {
         <Route path="*" element={<NoMatch />} />
         {/* </Route> */}
       </Routes>
+      <PiePagina />
     </div>
   );
 }
