@@ -19,8 +19,8 @@ function BarraNavegacion() {
         <Navbar.Toggle />
         <Nav className=" justify-content-end">
 
-          <Nav.Link as={Link} to="/"><Button style={{color: "white"}} variant="warning">Inicio</Button>{' '}</Nav.Link>
-          <Nav.Link as={Link} to="/contacto"><Button  variant="outline-warning">Contacto</Button>{' '}</Nav.Link>
+          <Nav.Link as={Link} to="/"><Button style={{color: "white"}} variant="warning">Home</Button>{' '}</Nav.Link>
+          <Nav.Link as={Link} to="/contacto"><Button  variant="outline-warning">Get in touch</Button>{' '}</Nav.Link>
         </Nav>
       </Container>
       <Outlet />
@@ -30,8 +30,8 @@ function BarraNavegacion() {
 
 function PiePagina(){
   return (
-    <div id="pie-pagina">
-      Pie
+    <div id="pie-pagina" style={{textAlign:"center"}}>
+        <Navbar.Brand className="logo-texto-navbar" as={Link} to="/">Developed by Víctor Anizar Morales </Navbar.Brand>
     </div>
   );
 }

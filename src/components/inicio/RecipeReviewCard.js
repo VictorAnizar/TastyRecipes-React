@@ -52,13 +52,13 @@ const RecipeReviewCard = (props) => {
             />
             <CardContent>
                 <Typography variant="body2" color="white">
-                    Categoría: {props.info['strCategory']}
+                    Category: {props.info['strCategory']}
                 </Typography>
             </CardContent>
 
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <Typography paragraph>Preparación</Typography>
+                    <Typography paragraph>How to:</Typography>
                     <Typography paragraph style={{ textAlign: "justify" }}>
                         {props.info.strInstructions}
                     </Typography>

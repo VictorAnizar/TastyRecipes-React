@@ -24,7 +24,7 @@ const CardRecipe = ({ info }) => {
             </div>
             <div className="card-recipe-short-info">
                 <h3>{info.strMeal}</h3>
-                <h5>Categoría: {info['strCategory']}</h5>
+                <h5>Category: {info['strCategory']}</h5>
             </div>
         </div>
     );
@@ -90,18 +90,26 @@ const CardCategory = (props) => {
 
 const Inicio = () => {
 
+    // Var for the random recipe 
     const [randomRecipe, setRandomRecipe] = useState(null);
+    // Var for the array of categories
     const [categories, setCategories] = useState(null);
+    // var for the array of one specific category
     const [selectedCategory, setSelectedCategory] = useState(null);
+    // Var just for save the name of the selected category
     const [category, setCategory] = useState(null);
-    // const [staredRecipes, setStaredRecipes] = useState(null);
-    // const [loading, setLoading] = useState(true);
+    // Var for save the current value of the form
+    const [textField, setTextField] = useState('');
+    // Var for the array of the searched meals
+    const [searchRecipe, setSearchRecipe] = useState(null);
+    // Var just for save the name of the searched name recipe
+    const [searchedName, setSearchedName] = useState(null);
     const selectCategory = async (cat) => {
         await fetch('https://www.themealdb.com/api/json/v1/1/filter.php?c=' + cat)
             .then(res => res.json())
             .then(data => {
-                console.log("cat seleccionada" + cat);
-                console.log(data.meals);
+                // console.log("cat seleccionada" + cat);
+                // console.log(data.meals);
                 setSelectedCategory(data.meals);
                 setCategory(cat)
             });
@@ -122,6 +130,18 @@ const Inicio = () => {
                 setCategories(data.categories)
             });
     }
+
+    const searchByName = async (keyword) => {
+        keyword = keyword.trim().toLowerCase();
+        setSearchedName(keyword);
+        await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=' + keyword)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data.meals);
+                setSearchRecipe(data.meals)
+            });
+    }
+
     useEffect(() => {
         getRandomRecipe();
         getCategories();
@@ -133,31 +153,66 @@ const Inicio = () => {
             <div className="searcher-div">
                 <div className="searcher-info">
                     <h2 >
-                        Las mejores recetas de cocina
+                        The best meal recipes!
                     </h2>
                     <p >
-                        ¿No sabes qué cocinar? Decenas de exquisitas recetas te esperan a tan solo una búsqueda
+                        Do you know what to cook? Tons of delightables recipes are waiting for you
                     </p>
-                    <Form className="searcher-form">
-                        <Form.Control className="searcher-form-searcher" type="text" placeholder="Nombre de la receta" />
+                    <Form className="searcher-form" onSubmit={(e) => {
+                        e.preventDefault();
+                    }}>
+                        <Form.Control className="searcher-form-searcher" type="text" placeholder="Recipe name"
+                            value={
+                                textField
+                            }
+                            onChange={
+                                (e) => {
+                                    e.preventDefault();
+                                    // console.log(e.target.value)
+                                    setTextField(e.target.value);
+                                }}
 
-                        <Button className="searcher-form-button" variant="outline-warning" type="submit">
-                            Buscar receta
+                        />
+
+                        <Button className="searcher-form-button" variant="outline-warning"
+                            onClick={(e) => {
+
+                                e.preventDefault();
+                                if (textField != '') {
+                                    console.log(textField);
+                                    setTextField('');
+                                    searchByName(textField);
+                                }
+                            }}>
+                            Search recipe
                         </Button>
                     </Form>
                 </div>
+
                 <div className="searcher-image">
                     <img src={persona} style={{ width: "60%" }} />
                 </div>
             </div>
-
+            {searchRecipe ?
+                <div className="searched-recipes">
+                    <h2>Searching by the text: "{searchedName}"</h2>
+                    <Button variant="warning" onClick={() => {
+                        setSearchRecipe(null);
+                    }}>Clean the search...</Button>{' '}
+                    <div className="grid-searched-recipes">
+                        {searchRecipe.map((recipeSearched, index) =>
+                            <RecipeReviewCard key={index} info={recipeSearched} />
+                        )}
+                    </div>
+                </div>
+                : null}
             {/* section of daily/random recipe */}
             <div className="daily-recipe">
                 <h2 >
-                    ¡Obtén una receta aleatoria!
+                    Get a random recipe!
                 </h2>
                 <p>
-                    ¡Cualquiera que obtengas, será deliciosa!
+                    Anyone you get, it'll be delicious!
                 </p>
                 {/* <CardRecipe info={randomRecipe} /> */}
                 <RecipeReviewCard info={randomRecipe}></RecipeReviewCard>
@@ -166,10 +221,10 @@ const Inicio = () => {
 
             {selectedCategory ?
                 <div className="selected-category" id="grid-selected-category">
-                    <h2>Mostrando por categoría {category}</h2>
+                    <h2>Showing by category: {category}</h2>
                     <Button variant="warning" onClick={() => {
                         setSelectedCategory(null);
-                    }}>Limpiar</Button>{' '}
+                    }}>Show all categories...</Button>{' '}
 
                     <div className="grid-selected-category" >
                         {selectedCategory.map((recipeCat, index) =>
@@ -178,11 +233,12 @@ const Inicio = () => {
                     </div>
                 </div> :
                 <>
-                    <h2>Nuestras categorías</h2>
+                    <h2>Our categories</h2>
                     <div className="categories">
 
                         <GridCategories categories={categories} selectCategory={(selectedCategory) => selectCategory(selectedCategory)} />
-                    </div></>
+                    </div>
+                </>
             }
 
         </div>
